@@ -1,4 +1,0 @@
-name: Tythan
-main: co.lotc.core.bungee.TythanBungee
-version: ${project.version}
-depends: [protocolize-plugin]
