@@ -11,6 +11,8 @@ java {
     toolchain.languageVersion.set(JavaLanguageVersion.of(17))
 }
 
+val jar: Jar by tasks
+jar.enabled = true
 
 repositories {
     maven { url = uri("https://repo.voop.lv/repository/vooplvPublic/") }
@@ -39,4 +41,15 @@ repositories {
 dependencies {
     compileOnly("org.projectlombok:lombok:1.18.30")
     annotationProcessor("org.projectlombok:lombok:1.18.30")
+
+    compileOnly("net.kyori:adventure-api:4.15.0-SNAPSHOT")
+    compileOnly("net.kyori:adventure-text-serializer-plain:4.15.0-SNAPSHOT")
+    compileOnly("net.kyori:adventure-text-serializer-legacy:4.15.0-SNAPSHOT")
+    compileOnly("net.kyori:adventure-text-serializer-gson:4.15.0-SNAPSHOT")
+    compileOnly("net.kyori:adventure-text-minimessage:4.15.0-SNAPSHOT")
+
+    api("commons-lang:commons-lang:2.6")
+    api("commons-io:commons-io:2.11.0")
+    api("commons-codec:commons-codec:1.15")
+    api("joda-time","joda-time","2.10.10")
 }
