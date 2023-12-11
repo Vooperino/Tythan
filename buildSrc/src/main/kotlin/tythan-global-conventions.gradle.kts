@@ -52,4 +52,20 @@ dependencies {
     api("commons-io:commons-io:2.11.0")
     api("commons-codec:commons-codec:1.15")
     api("joda-time","joda-time","2.10.10")
+
+    api("com.google.inject:guice:5.1.0")
+
+    api("com.electronwill.night-config:core:3.6.7") {
+        exclude("org.yaml","snakeyaml")
+    }
+    api("com.electronwill.night-config:yaml:3.6.7") {
+        exclude("org.yaml","snakeyaml")
+    }
+    api("com.electronwill.night-config:toml:3.6.7") {
+        exclude("org.yaml","snakeyaml")
+    }
+    api("com.electronwill.night-config:json:3.6.7") {
+        exclude("org.yaml","snakeyaml")
+    }
+
 }
