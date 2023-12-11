@@ -1,5 +1,6 @@
 package com.github.archemedes.tythan;
 
+import com.github.archemedes.tythan.agnostic.abstracts.AbstractKyoriComponentBuilder;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Unmodifiable;
 
@@ -12,5 +13,7 @@ public interface Tythan {
 
     @NotNull @Unmodifiable File getRootDirectory();
     @NotNull @Unmodifiable Logger getLogger();
+
+    @NotNull AbstractKyoriComponentBuilder<?> getKyoriComponentBuilder();
 
 }
