@@ -67,7 +67,7 @@ public abstract class Kommandant {
             Integer value = namesUsed.compute(name, (k, v)->v==null? 1 : v+1);
             if(value > 1) name = name+value;
 
-            CommandNode<Object> nextArg = buildNodeForArg(name, arg, executes);
+            CommandNode<Object> nextArg = buildNodeForArg(name, arg, executes, cmd);
 
             argument.addChild(nextArg);
 
@@ -130,11 +130,11 @@ public abstract class Kommandant {
     }
 
     @SuppressWarnings({ "rawtypes", "unchecked" })
-    private CommandNode<Object> buildNodeForArg(String name, CommandArgument<?> arg, boolean executes){
+    private CommandNode<Object> buildNodeForArg(String name, CommandArgument<?> arg, boolean executes, TythanCommand cmd){
 
         ArgumentType argumentType = arg.getBrigadierType();
 
-        var builder = makeBuilderWithSuggests(name, argumentType, arg);
+        var builder = makeBuilderWithSuggests(name, argumentType, arg,cmd);
         if(executes) builder.executes( $->0 );
         return builder.build();
     }
@@ -142,7 +142,7 @@ public abstract class Kommandant {
 
 
     @SuppressWarnings("rawtypes") //Any of the Brigadier generic types are never important.
-    protected abstract RequiredArgumentBuilder makeBuilderWithSuggests(String name, ArgumentType<?> type, CommandArgument<?>arg);
+    protected abstract RequiredArgumentBuilder makeBuilderWithSuggests(String name, ArgumentType<?> type, CommandArgument<?>arg, TythanCommand cmd);
     protected abstract boolean hasPlayerPermission(CommandArgument<?> arg);
     protected abstract <T> SuggestionProvider<T> getFlagSuggestionProvider(List<CommandFlag> flags,TythanCommand cmd);
 

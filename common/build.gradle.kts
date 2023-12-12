@@ -1,6 +1,5 @@
 plugins {
     id("tythan-global-conventions")
-    id("vooplv-public-nexus-repo")
 }
 
 description = "common"
