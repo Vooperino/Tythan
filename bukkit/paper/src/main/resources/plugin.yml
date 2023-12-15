@@ -1,0 +1,9 @@
+name: TythanX
+version: ${version}
+main: com.github.archemedes.tythan.bukkit.TythanBukkit
+api-version: 1.18
+prefix: TythanX
+load: STARTUP
+folia-supported: false
+depend:
+  - ProtocolLib
