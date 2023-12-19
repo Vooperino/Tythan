@@ -3,7 +3,7 @@ plugins {
     id("vooplv-public-nexus-repo")
 }
 
-description = "bukkit"
+description = "paper"
 dependencies {
     api(project(":common"))
     compileOnly(project(":bukkit:nms:commonNMS"))
