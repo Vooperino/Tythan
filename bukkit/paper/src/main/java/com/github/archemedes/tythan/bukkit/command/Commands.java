@@ -50,7 +50,10 @@ public class Commands {
             command.setTabCompleter(executor);
             pluginCommand.setExecutor(executor);
             validatePermission(handler.getPermission());
-
+            Kommandant kommandant = new TythanBukkitKommandant(handler);
+            if (!TythanBukkit.get().getMcVerHandler().isBrokenBrigadier()) kommandant.addBrigadier();
+            CommandNodeManager.getInstance().register(kommandant);
+            if (!TythanBukkit.get().getMcVerHandler().isBrokenBrigadier()) CommandNodeManager.getInstance().inject(BrigadierProvider.get().getBrigadier().getRoot());
         });
 
     }
@@ -63,6 +66,9 @@ public class Commands {
         builder(command,forceInject).build();
     }
 
+    public static void build(String command, Supplier<TythanCommandTemplate> template) {
+        build(Bukkit.getPluginCommand(command),template);
+    }
     public static void build(PluginCommand command, Supplier<TythanCommandTemplate> template) {
         if(command==null) throw new NullPointerException("Command was not found with in plugin.yml! Suggestion: Try using InjectableCommand");
         builder(command, template).build();
