@@ -30,7 +30,7 @@ public class CommandArgument<T> {
     @Setter private ArgumentType brigadierType = StringArgumentType.word();
 
     private final String name, defaultInput, description;
-    private final Component errorMessage;
+    private final String errorMessage;
 
     T resolveDefault(Sender s) {
         if(defaultInput == null) return null;

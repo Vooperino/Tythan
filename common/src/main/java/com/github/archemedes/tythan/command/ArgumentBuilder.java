@@ -37,7 +37,7 @@ public class ArgumentBuilder {
 
     @Setter private String defaultInput;
     @Setter private String name = null;
-    @Setter private Component errorMessage = null;
+    @Setter private String errorMessage = null;
     @Setter private String description = null;
 
     ArgumentBuilder(TythanCommandBuilder command) {
@@ -78,7 +78,7 @@ public class ArgumentBuilder {
 
 
     private CommandArgument<Integer> asIntInternal(){
-        defaults("#",Component.text("Not an accepted integer"));
+        defaults("#","Not an accepted integer");
         CommandArgument<Integer> arg = build(Integer.class);
         arg.setMapper(Ints::tryParse);
         arg.setBrigadierType(IntegerArgumentType.integer());
@@ -91,7 +91,7 @@ public class ArgumentBuilder {
     }
 
     private CommandArgument<Long> asLongInternal() {
-        defaults("#l",Component.text("Not an accepted longinteger"));
+        defaults("#l","Not an accepted long integer");
         CommandArgument<Long> arg = build(Long.class);
         arg.setMapper(Longs::tryParse);
         return arg;
@@ -123,7 +123,7 @@ public class ArgumentBuilder {
     }
 
     private CommandArgument<Double> asDoubleInternal(){
-        defaults("#.#",Component.text("Not an accepted number"));
+        defaults("#.#","Not an accepted number");
         CommandArgument<Double> arg = build(Double.class);
         arg.setMapper(Doubles::tryParse);
         arg.setBrigadierType(DoubleArgumentType.doubleArg());
@@ -150,7 +150,7 @@ public class ArgumentBuilder {
     }
 
     public CommandArgument<Float> asFloatInternal() {
-        defaults("#.#",Component.text("Not an accepted number"));
+        defaults("#.#","Not an accepted number");
         CommandArgument<Float> arg = build(Float.class);
         arg.setMapper(Floats::tryParse);
         arg.setBrigadierType(FloatArgumentType.floatArg());
@@ -158,14 +158,14 @@ public class ArgumentBuilder {
     }
 
     public TythanCommandBuilder asString(){
-        defaults("*",Component.text("Provide an argument"));
+        defaults("*","Provide an argument");
         val arg = build(String.class);
         arg.setMapper($->$);
         return command;
     }
 
     public TythanCommandBuilder asString(String... options){
-        defaults("*",Component.text("Must be one of these: " + StringUtils.join(options, ", ")));
+        defaults("*","Must be one of these: " + StringUtils.join(options, ", "));
         val arg = build(String.class);
         arg.setFilter( s-> Stream.of(options).filter(s2->s2.equalsIgnoreCase(s)).findAny().isPresent() );
         arg.setMapper($->$);
@@ -176,7 +176,7 @@ public class ArgumentBuilder {
     public TythanCommandBuilder asStringArray() {
         if(flag != null) throw new IllegalStateException("Cannot use joined arguments for parameters/flags");
 
-        defaults("args", Component.text("Provide multiple arguments"));
+        defaults("args", "Provide multiple arguments");
         ArrayArguments arg = new ArrayArguments(name, errorMessage, defaultInput, description);
         command.noMoreArgs = true;
         command.addArg(arg);
@@ -185,7 +185,7 @@ public class ArgumentBuilder {
 
 
     public <T extends Enum<T>> TythanCommandBuilder asEnum(Class<T> clazz) {
-        defaults(clazz.getSimpleName(),Component.text("Not a valid " + clazz.getSimpleName()));
+        defaults(clazz.getSimpleName(),"Not a valid " + clazz.getSimpleName());
         val arg = build(clazz);
         arg.setMapper(s->{
             try{ return Enum.valueOf(clazz, s.toUpperCase()); }
@@ -207,28 +207,28 @@ public class ArgumentBuilder {
     }
 
     public TythanCommandBuilder asInstant() {
-        defaults("time",Component.text("Please provide a valid date (YYYY-MM-DD), time (hh:mm:ss), datetime (YYYY-MM-DDThh:mm:ss) or duration (e.g.: 3w10d5h7m40s)"));
+        defaults("time","Please provide a valid date (YYYY-MM-DD), time (hh:mm:ss), datetime (YYYY-MM-DDThh:mm:ss) or duration (e.g.: 3w10d5h7m40s)");
         val arg = build(Instant.class);
         arg.setMapper(TimeUtils::parseEager);
         return command;
     }
 
     public TythanCommandBuilder asDuration() {
-        defaults("duration",Component.text("Please provide a duration (e.g.: 3w10d5h17m40s)"));
+        defaults("duration","Please provide a duration (e.g.: 3w10d5h17m40s)");
         val arg = build(Duration.class);
         arg.setMapper(TimeUtils::parseDuration);
         return command;
     }
 
     public TythanCommandBuilder asTimestamp() {
-        defaults("timestamp",Component.text("Provide a timestamp in miliseconds"));
+        defaults("timestamp","Provide a timestamp in miliseconds");
         val arg = build(Timestamp.class);
         arg.setMapper(TimeUtils::parseTimestamp);
         return command;
     }
 
     public TythanCommandBuilder asBoolean() {
-        defaults("bool",Component.text("Please provide either true/false."));
+        defaults("bool","Please provide either true/false.");
         val arg = build(Boolean.class);
         arg.setMapper(s -> {
             if(Stream.of("true","yes","y").anyMatch(s::equalsIgnoreCase)) return true;
@@ -254,7 +254,7 @@ public class ArgumentBuilder {
     public TythanCommandBuilder asJoinedString() {
         if(flag != null) throw new IllegalStateException("Cannot use joined arguments for parameters/flags");
 
-        defaults("**", Component.text("Provide any sentence, spaces allowed."));
+        defaults("**", "Provide any sentence, spaces allowed.");
         JoinedArgument arg = new JoinedArgument(name, errorMessage, defaultInput, description);
         command.noMoreArgs = true;
         command.addArg(arg);
@@ -302,7 +302,7 @@ public class ArgumentBuilder {
         @SuppressWarnings("unchecked")
         ParameterType<X> result = (ParameterType<X>) ParameterType.getCustomType(clazz);
         String defaultName = result.getDefaultName() == null ? clazz.getSimpleName() : result.getDefaultName();
-        Component defaultError = result.getDefaultError() == null ? Component.text("Please provide a valid " + clazz.getSimpleName()) : result.getDefaultError();
+        String defaultError = result.getDefaultError() == null ? "Please provide a valid " + clazz.getSimpleName() : result.getDefaultError();
         defaults(defaultName, defaultError);
 
         CommandArgument<X> arg = build(clazz);
@@ -312,12 +312,7 @@ public class ArgumentBuilder {
 
     private void defaults(String name, String err, Object... formats) {
         if(this.name == null) this.name = name;
-        if(errorMessage == null) this.errorMessage = Component.text(String.format(err, formats));
-    }
-
-    private void defaults(String name, Component errorMessage){
-        if(this.name == null) this.name = name;
-        if(errorMessage == null) this.errorMessage = errorMessage;
+        if(errorMessage == null) this.errorMessage = String.format(err, formats);
     }
 
     private <T> CommandArgument<T> build(Class<T> clazz){

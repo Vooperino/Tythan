@@ -10,7 +10,7 @@ import java.util.List;
 public class JoinedArgument extends CommandArgument<String> {
 
 
-    public JoinedArgument(String name, Component errorMessage, String defaultInput, String description) {
+    public JoinedArgument(String name, String errorMessage, String defaultInput, String description) {
         super(name, defaultInput, description, errorMessage);
         this.setMapper(s->s);
         this.setBrigadierType(StringArgumentType.greedyString());

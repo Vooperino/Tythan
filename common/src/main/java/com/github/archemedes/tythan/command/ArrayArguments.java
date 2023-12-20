@@ -8,7 +8,7 @@ import java.util.List;
 
 public class ArrayArguments extends CommandArgument<String[]> {
 
-    public ArrayArguments(String name, Component errorMessage, String defaultInput, String description) {
+    public ArrayArguments(String name, String errorMessage, String defaultInput, String description) {
         super(name, defaultInput, description, errorMessage);
         this.setMapper(s->s.split(" "));
         this.setBrigadierType(StringArgumentType.greedyString());

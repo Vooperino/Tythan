@@ -1,13 +1,14 @@
 package com.github.archemedes.tythan.command;
 
 import com.github.archemedes.tythan.Tythan;
+import com.github.archemedes.tythan.TythanInstanceProvider;
+import com.github.archemedes.tythan.agnostic.CommonKyoriComponentBuilder;
 import com.github.archemedes.tythan.agnostic.Sender;
 import com.mojang.brigadier.arguments.ArgumentType;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.Accessors;
-import net.kyori.adventure.text.Component;
 import org.apache.commons.lang.Validate;
 
 import java.sql.Timestamp;
@@ -20,6 +21,7 @@ import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
+import java.util.logging.Level;
 
 @RequiredArgsConstructor @Accessors(fluent=true) @Setter
 public class ParameterType<T> {
@@ -52,7 +54,7 @@ public class ParameterType<T> {
 
     private CommandCompleter completer;
     private String defaultName;
-    private Component defaultError;
+    private String defaultError;
 
 
     private boolean isClassValid() {
@@ -90,6 +92,7 @@ public class ParameterType<T> {
         } else {
             customTypes.put(forClass, this);
         }
+        TythanInstanceProvider.getDebugLogger().log(Level.INFO,"Registered a new parameter: "+forClass.getSimpleName());
     }
 
 
@@ -109,11 +112,6 @@ public class ParameterType<T> {
     }
 
     public ParameterType<T> defaultError(String defaultError){
-        this.defaultError = Component.text(defaultError);
-        return this;
-    }
-
-    public ParameterType<T> defaultError(Component defaultError){
         this.defaultError = defaultError;
         return this;
     }
@@ -133,8 +131,8 @@ public class ParameterType<T> {
         return defaultName;
     }
 
-    public Component getDefaultError() {
-        if(defaultError == null) return Component.text("Please provide a valid " + getDefaultName());
+    public String getDefaultError() {
+        if(defaultError == null) return "Please provide a valid "+getDefaultName();
         return defaultError;
     }
 
