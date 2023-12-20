@@ -41,7 +41,7 @@ public class BukkitSender implements Sender, AgnosticObject<CommandSender> {
 
     @Override
     public @Nullable Object getPlayer() {
-        if (isPlayer()) return Bukkit.getPlayer(getUUID());
+        if (isPlayer()) return Bukkit.getPlayer(this.getUUID());
         return null;
     }
 
