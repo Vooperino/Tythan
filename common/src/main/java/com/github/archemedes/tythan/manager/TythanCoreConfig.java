@@ -2,6 +2,7 @@ package com.github.archemedes.tythan.manager;
 
 import com.electronwill.nightconfig.core.file.FileConfig;
 import com.github.archemedes.tythan.Tythan;
+import com.github.archemedes.tythan.TythanInstanceProvider;
 import com.github.archemedes.tythan.utils.FileUtils;
 import com.github.archemedes.tythan.utils.config.ConfigDefaultValueChecker;
 import lombok.EqualsAndHashCode;
@@ -46,6 +47,8 @@ public class TythanCoreConfig implements ITythanManager {
             this.debug = cfg.get("debug");
             this.commandSettingsShowErrorArg = cfg.get("Commands.settings.ShowErrorArg");
             cfg.close();
+
+            TythanInstanceProvider.getDebugLogger().setDebugMode(this.debug);
         }
     }
 }

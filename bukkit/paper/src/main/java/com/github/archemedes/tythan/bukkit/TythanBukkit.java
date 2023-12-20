@@ -20,6 +20,7 @@ import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.Unmodifiable;
 
 import java.io.File;
+import java.util.logging.Level;
 
 public class TythanBukkit extends JavaPlugin implements Tythan {
 
@@ -33,7 +34,13 @@ public class TythanBukkit extends JavaPlugin implements Tythan {
 
     @Override
     public void onEnable() {
+        TythanInstanceProvider.debug(Level.INFO,"Starting Tythan for Bukkit");
         this.mcVerHandler = BukkitTythanVersioning.getVersionHandler();
+
+        if (this.mcVerHandler!=null) {
+            TythanInstanceProvider.debug(Level.INFO,"MC Version: "+this.mcVerHandler.name());
+        }
+
         this.registerCommandParameters();
         new TythanPacketListener().init();
         this.registerEventHandler(new MenuListener());
@@ -60,6 +67,7 @@ public class TythanBukkit extends JavaPlugin implements Tythan {
     }
 
     private void registerCommandParameters() {
+        TythanInstanceProvider.debug(Level.INFO,"Registering Basic/Core Command Parameters");
         SenderTypes.registerCommandSenderType();
         SenderTypes.registerOfflinePlayerType();
         SenderTypes.registerPlayerType();
