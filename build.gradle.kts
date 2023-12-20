@@ -13,6 +13,10 @@ allprojects {
     apply(plugin = "tythan-global-conventions")
     apply(plugin = "java")
 
+    tasks.shadowJar {
+        archiveClassifier.set("")
+    }
+
     group = "com.github.archemedes.tythan"
     version = "1.0.0-SNAPSHOT"
 }
