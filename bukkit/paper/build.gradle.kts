@@ -10,6 +10,7 @@ dependencies {
     api(project(":bukkit:nms:NMSv1_19_4", "reobf"))
     api(project(":bukkit:nms:NMSv1_20", "reobf"))
     api(project(":bukkit:nms:NMSv1_20_2", "reobf"))
+    api(project(":bukkit:nms:NMSv1_20_4", "reobf"))
     compileOnly("com.mojang:brigadier:1.0.18")
     compileOnly("io.papermc.paper:paper-api:1.20.2-R0.1-SNAPSHOT")
     compileOnly("io.papermc.paper:paper-mojangapi:1.20.2-R0.1-SNAPSHOT")
@@ -26,6 +27,7 @@ tasks.shadowJar {
     dependsOn(":bukkit:nms:NMSv1_19_4:reobfJar")
     dependsOn(":bukkit:nms:NMSv1_20:reobfJar")
     dependsOn(":bukkit:nms:NMSv1_20_2:reobfJar")
+    dependsOn(":bukkit:nms:NMSv1_20_4:reobfJar")
     archiveBaseName.set("Tythan-Bukkit")
     archiveVersion.set("")
 }
