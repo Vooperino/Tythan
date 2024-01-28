@@ -39,6 +39,8 @@ public class TythanBukkit extends JavaPlugin implements Tythan {
 
         if (this.mcVerHandler!=null) {
             TythanInstanceProvider.debug(Level.INFO,"MC Version: "+this.mcVerHandler.name());
+            TythanInstanceProvider.debug(Level.INFO,"Loading NMS Wrapper...");
+            this.mcVerHandler.getTythanNMS().initNMS(this);
         }
 
         this.registerCommandParameters();
@@ -53,6 +55,7 @@ public class TythanBukkit extends JavaPlugin implements Tythan {
 
     @Override
     public void onDisable() {
+        if (this.mcVerHandler!=null) this.mcVerHandler.getTythanNMS().deInitNMS();
         TythanInstanceProvider.stopTythanCore();
     }
 
